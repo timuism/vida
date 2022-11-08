@@ -1,26 +1,35 @@
 <script setup lang="ts">
-import { useTaskStore } from '@/stores/tasks';
+import { ApiServiceProvider } from '@/services/provider';
+import Datepicker from 'vue3-datepicker'
+import { useTaskStore } from '@/stores/task';
 import { storeToRefs } from 'pinia';
 import { ref } from 'vue';
 import ButtonPrimary from './ButtonPrimary.vue';
-
-const store = useTaskStore();
-const { tasks } = storeToRefs(store);
-const { addTasks } = store
+import { Task } from '@/models/task';
+import moment from 'moment'
 
 const showNewTaskWindow = ref(false)
+const picked = ref(new Date())
+const taskName = ref('')
 
-const date = ref('');
+async function onCreateTaskClick(event: Event) {
+  console.log(event, taskName.value, picked.value)
+  const task = {
+    task_name: taskName.value,
+    due_date: picked.value
+  }
 
-function onCreateTaskClick(event: Event) {
-  // @todo: gather data from new task fields
-  // const newTask = {}
-  // addTasks(newTask)
+  const api = new ApiServiceProvider().getInstance()
+  const response = await api.addTask(task)
+  if(response) {
+    console.log(response)
+  }
 }
+
 </script>
 
 <template>
-  <button @click="showNewTaskWindow = true" class="text-gray-100 duration-150 rounded-lg hover:text-gray">
+  <button @click.prevent="showNewTaskWindow = true" class="text-gray-100 duration-150 rounded-lg hover:text-gray">
     + Add new task
   </button>
 
@@ -38,25 +47,23 @@ function onCreateTaskClick(event: Event) {
       <form class="flex flex-col items-start justify-start mt-8 space-y-2 grow">
         <div class="grow">
           <fieldset class="flex w-full space-x-4">
-            <input name="text" placeholder="Task name" class="pb-2 text-3xl outline-none" required />
+            <input name="text" placeholder="Task name" class="pb-2 text-3xl outline-none" v-model="taskName" required />
           </fieldset>
           
           <fieldset class="flex items-center mt-2 space-x-2">
             <p class="italic font-semibold">on</p>
-            <DatePicker v-model="date">
-              <template #default="{ inputValue, togglePopover, hidePopover }">
-                <button 
-                  class="px-8 py-2 text-sm border-2 border-dashed text-gray rounded-xl "
-                >
-                Today
-                </button>
-              </template>
-            </DatePicker>
+              <Datepicker v-model="picked" />
+              <!-- <button 
+                    class="px-8 py-2 text-sm border-2 border-dashed text-gray rounded-xl"
+                    @click.prevent=""
+                  >
+                  Today
+                  </button> -->
           </fieldset>
         </div>
 
         <fieldset class="mt-auto shrink">
-          <ButtonPrimary @click="onCreateTaskClick">
+          <ButtonPrimary @click.prevent="onCreateTaskClick">
             Create Task
           </ButtonPrimary>
         </fieldset>

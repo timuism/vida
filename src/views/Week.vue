@@ -3,12 +3,11 @@ import { useTaskStore } from "@/stores/tasks";
 import { storeToRefs } from "pinia";
 import Layout from "../components/Layout.vue";
 import AddTaskButton from "../components/AddTaskButton.vue";
-import Task from "../components/Task.vue";
-import { computed } from "vue";
+import { computed, onMounted } from "vue";
 
 const store = useTaskStore()
 const {tasks} = storeToRefs(store)
-const {addTasks} = store
+
 
 const incompleteTasks = computed(() => {
   return tasks.value.filter(task => {

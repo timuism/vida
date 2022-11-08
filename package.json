@@ -16,10 +16,11 @@
     "@supabase/supabase-js": "^2.0.4",
     "moment": "^2.29.4",
     "pinia": "^2.0.13",
-    "v-calendar": "^3.0.0-alpha.8",
     "vue": "^3.2.33",
+    "vue-pikaday": "^0.1.1",
     "vue-router": "^4.0.14",
-    "vue-supabase": "^2.3.0"
+    "vue-supabase": "^2.3.0",
+    "vue3-datepicker": "^0.3.4"
   },
   "devDependencies": {
     "@types/node": "^16.11.27",
