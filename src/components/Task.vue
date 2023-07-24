@@ -25,5 +25,9 @@ const emit = defineEmits(['onCheckboxClick'])
     <p class="cursor-text" :class="[completed ? 'line-through text-gray-100' : 'text-gray']">
       {{text}}
     </p>
+
+    <router-link :to="`task/${id}`">
+      <span>i</span>
+    </router-link>
   </div>
 </template>

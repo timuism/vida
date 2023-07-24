@@ -4,7 +4,7 @@
       <slot name="header" />
     </header>
 
-    <div class="ml-8">
+    <div class="w-full ml-8">
       <slot name="content" />
     </div>
   </div>
